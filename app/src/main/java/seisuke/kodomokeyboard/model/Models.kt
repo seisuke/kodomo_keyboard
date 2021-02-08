@@ -33,7 +33,7 @@ sealed class Message {
     object DakuonOff : Message()
 }
 
-class KodomoKeyboardUpdate() : Update<KeyboardState, Message> {
+class KodomoKeyboardUpdate : Update<KeyboardState, Message> {
     override fun update(msg: Message, model: KeyboardState): KeyboardState =
         when (msg) {
             Message.Katakana -> model.copy(katakana = true)
