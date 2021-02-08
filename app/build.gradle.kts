@@ -53,9 +53,9 @@ android {
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
         val lintOption: String = if (System.getenv("IS_CI")?.toBoolean() == true) {
-            "ktlintCheck" // CI環境ならチェック（失敗すると落ちる）
+            "ktlintCheck"
         } else {
-            "ktlintFormat" // CI環境じゃなければfix（自動修正を走らせる）
+            "ktlintFormat"
         }
         dependsOn("ktlintFormat")
         kotlinOptions {

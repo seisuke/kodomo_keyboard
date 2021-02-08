@@ -20,9 +20,9 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import seisuke.kodomokeyboard.model.Key
-import seisuke.kodomokeyboard.model.KeyList
 import seisuke.kodomokeyboard.model.KeyboardState
+import seisuke.kodomokeyboard.ui.model.Key
+import seisuke.kodomokeyboard.ui.model.KeyList
 
 @ExperimentalCoroutinesApi
 @Composable
