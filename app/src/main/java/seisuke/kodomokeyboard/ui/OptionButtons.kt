@@ -13,16 +13,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.loadVectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.GlobalScope
 import seisuke.kodomokeyboard.R
 import seisuke.kodomokeyboard.elm.SandBox
 import seisuke.kodomokeyboard.model.KeyboardState
-import seisuke.kodomokeyboard.model.KodomoKeyboardUpdate
 import seisuke.kodomokeyboard.model.Message
 
 @ExperimentalCoroutinesApi
@@ -96,25 +92,4 @@ fun OptionButtons(
             Text(text = "ばぱ\nゃっ", fontSize = 10.sp)
         }
     }
-}
-
-@ExperimentalCoroutinesApi
-@FlowPreview
-@Composable
-@Preview
-private fun PreviewOptionButton() {
-    OptionButtons(
-        Modifier,
-        SandBox.create(
-            KeyboardState(
-                katakana = false,
-                dakuon = false
-            ),
-            KodomoKeyboardUpdate(
-                {},
-                {}
-            ),
-            GlobalScope
-        )
-    )
 }

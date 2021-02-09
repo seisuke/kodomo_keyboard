@@ -15,14 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.GlobalScope
 import seisuke.kodomokeyboard.elm.SandBox
 import seisuke.kodomokeyboard.model.KeyboardState
-import seisuke.kodomokeyboard.model.KodomoKeyboardUpdate
 import seisuke.kodomokeyboard.model.Message
 import seisuke.kodomokeyboard.ui.viewdata.Key
 import seisuke.kodomokeyboard.ui.viewdata.KeyList
@@ -100,39 +96,6 @@ fun KeyButton(
             )
         }
     }
-}
-
-@FlowPreview
-@ExperimentalCoroutinesApi
-@Composable
-@Preview
-private fun PreviewKeyboardView() {
-    KeyboardView(
-        Modifier,
-        listOf(
-            listOf(
-                Key.Letter("あ"),
-                Key.Space,
-                Key.Letter("い"),
-            ),
-            listOf(
-                Key.Letter("か"),
-                Key.Letter("き"),
-                Key.Letter("く"),
-            )
-        ),
-        SandBox.create(
-            KeyboardState(
-                katakana = false,
-                dakuon = false
-            ),
-            KodomoKeyboardUpdate(
-                {},
-                {}
-            ),
-            GlobalScope
-        )
-    )
 }
 
 private fun KeyboardState.getTextFrom(letter: Key.Letter): String? =
