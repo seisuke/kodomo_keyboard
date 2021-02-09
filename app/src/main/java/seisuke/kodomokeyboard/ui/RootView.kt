@@ -14,16 +14,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import seisuke.kodomokeyboard.elm.SandBox
 import seisuke.kodomokeyboard.model.KeyboardState
 import seisuke.kodomokeyboard.model.Message
-import seisuke.kodomokeyboard.ui.model.Key
-import seisuke.kodomokeyboard.ui.model.KeyList
+import seisuke.kodomokeyboard.ui.viewdata.Key
+import seisuke.kodomokeyboard.ui.viewdata.KeyList
 
 @ExperimentalCoroutinesApi
 @Composable
-fun RootView(
-    sandBox: SandBox<KeyboardState, Message>,
-    keyboardAction: (String) -> Unit,
-    deleteAction: () -> Unit
-) {
+fun RootView(sandBox: SandBox<KeyboardState, Message>) {
     MaterialTheme(
         colors = originalLightColors()
     ) {
@@ -33,16 +29,14 @@ fun RootView(
                     .weight(0.1f)
                     .padding(top = 8.dp),
                 RootViewConst.KEY_LIST,
-                sandBox.stateFlow,
-                keyboardAction
+                sandBox,
             )
 
             OptionButtons(
                 Modifier
                     .wrapContentWidth()
                     .padding(top = 8.dp, start = 8.dp, end = 8.dp),
-                sandBox,
-                deleteAction
+                sandBox
             )
         }
     }

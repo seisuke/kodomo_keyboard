@@ -18,56 +18,58 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.GlobalScope
+import seisuke.kodomokeyboard.elm.SandBox
 import seisuke.kodomokeyboard.model.KeyboardState
-import seisuke.kodomokeyboard.ui.model.Key
-import seisuke.kodomokeyboard.ui.model.KeyList
+import seisuke.kodomokeyboard.model.KodomoKeyboardUpdate
+import seisuke.kodomokeyboard.model.Message
+import seisuke.kodomokeyboard.ui.viewdata.Key
+import seisuke.kodomokeyboard.ui.viewdata.KeyList
 
 @ExperimentalCoroutinesApi
 @Composable
 fun KeyboardView(
     modifier: Modifier,
     keyList: KeyList,
-    stateFlow: StateFlow<KeyboardState>,
-    onClickAction: (String) -> Unit
+    sandBox: SandBox<KeyboardState, Message>
 ) {
-    val collectAsState = stateFlow.collectAsState() // ?
-    val state = remember { collectAsState }.value
-
     LazyRow(
         modifier = modifier,
         reverseLayout = true
     ) {
         items(items = keyList) { letterList ->
-            LineOfA(letterList, state, onClickAction)
+            LineOfA(letterList, sandBox)
             Spacer(modifier = Modifier.width(8.dp))
         }
     }
 }
 
+@ExperimentalCoroutinesApi
 @Composable
 fun LineOfA(
     letterList: List<Key>,
-    state: KeyboardState,
-    onClickAction: (String) -> Unit
+    sandBox: SandBox<KeyboardState, Message>
 ) {
     LazyColumn(
         modifier = Modifier.wrapContentWidth()
     ) {
         items(letterList) { key ->
-            KeyButton(key, state, onClickAction)
+            KeyButton(key, sandBox)
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
 
+@ExperimentalCoroutinesApi
 @Composable
 fun KeyButton(
     key: Key,
-    state: KeyboardState,
-    onClickAction: (String) -> Unit
+    sandBox: SandBox<KeyboardState, Message>
 ) {
+    val collectAsState = sandBox.stateFlow.collectAsState() // ?
+    val state = remember { collectAsState }.value
+
     when (key) {
         is Key.Letter -> {
             val text = state.getTextFrom(key)
@@ -80,7 +82,7 @@ fun KeyButton(
                 contentPadding = PaddingValues(8.dp),
                 onClick = {
                     if (text != null) {
-                        onClickAction(text)
+                        sandBox.accept(Message.ClickKey(text))
                     }
                 },
                 shape = RoundedCornerShape(10.dp),
@@ -100,6 +102,7 @@ fun KeyButton(
     }
 }
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 @Composable
 @Preview
@@ -118,8 +121,18 @@ private fun PreviewKeyboardView() {
                 Key.Letter("く"),
             )
         ),
-        MutableStateFlow(KeyboardState.create())
-    ) {}
+        SandBox.create(
+            KeyboardState(
+                katakana = false,
+                dakuon = false
+            ),
+            KodomoKeyboardUpdate(
+                {},
+                {}
+            ),
+            GlobalScope
+        )
+    )
 }
 
 private fun KeyboardState.getTextFrom(letter: Key.Letter): String? =

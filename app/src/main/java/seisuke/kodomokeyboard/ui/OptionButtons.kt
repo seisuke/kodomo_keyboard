@@ -29,8 +29,7 @@ import seisuke.kodomokeyboard.model.Message
 @Composable
 fun OptionButtons(
     modifier: Modifier,
-    sandBox: SandBox<KeyboardState, Message>,
-    deleteAction: () -> Unit
+    sandBox: SandBox<KeyboardState, Message>
 ) {
     val collectAsState = sandBox.stateFlow.collectAsState() // ?
     val state = remember { collectAsState }.value
@@ -40,7 +39,7 @@ fun OptionButtons(
     ) {
 
         Button(
-            onClick = deleteAction
+            onClick = { sandBox.accept(Message.Delete) }
         ) {
             val image = loadVectorResource(id = R.drawable.ic_baseline_backspace_24)
             image.resource.resource?.let {
@@ -111,8 +110,11 @@ private fun PreviewOptionButton() {
                 katakana = false,
                 dakuon = false
             ),
-            KodomoKeyboardUpdate(),
+            KodomoKeyboardUpdate(
+                {},
+                {}
+            ),
             GlobalScope
         )
-    ) {}
+    )
 }

@@ -1,4 +1,4 @@
-package seisuke.kodomokeyboard.ui.model
+package seisuke.kodomokeyboard.ui.viewdata
 
 typealias KeyList = List<List<Key>>
 

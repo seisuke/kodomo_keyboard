@@ -5,4 +5,6 @@ sealed class Message {
     object Hiragana : Message()
     object DakuonOn : Message()
     object DakuonOff : Message()
+    object Delete : Message()
+    class ClickKey(val text: String) : Message()
 }

@@ -33,7 +33,7 @@ abstract class SandBox<Model, Message> private constructor() {
             mutableMessageFlow
                 .scan(mutableStateFlow.value) { model, msg -> update.update(msg, model) }
                 .onEach { model -> mutableStateFlow.value = model }
-                .launchIn(CoroutineScope(Dispatchers.IO))
+                .launchIn(CoroutineScope(Dispatchers.Main))
 
             return object : SandBox<Model, Message>() {
 

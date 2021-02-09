@@ -40,24 +40,23 @@ class KodomoKeyboard :
         ViewTreeViewModelStoreOwner.set(view, this)
         ViewTreeSavedStateRegistryOwner.set(view, this)
 
-        val sandBox = SandBox.create(
-            KeyboardState.create(),
-            KodomoKeyboardUpdate(),
-            lifecycleScope
-        )
-
-        val keyboardAction: (String) -> Unit = { text ->
+        val clickKeyAction: (String) -> Unit = { text ->
             currentInputConnection.apply {
                 commitText(text, 1)
             }
         }
 
-        view.setContent {
-            RootView(
-                sandBox,
-                keyboardAction,
+        val sandBox = SandBox.create(
+            KeyboardState.create(),
+            KodomoKeyboardUpdate(
+                clickKeyAction,
                 ::upDownDeleteKey
-            )
+            ),
+            lifecycleScope
+        )
+
+        view.setContent {
+            RootView(sandBox)
         }
     }
 
