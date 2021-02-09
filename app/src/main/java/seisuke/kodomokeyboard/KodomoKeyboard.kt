@@ -5,7 +5,6 @@ import android.view.KeyEvent
 import android.view.View
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
@@ -25,7 +24,6 @@ import seisuke.kodomokeyboard.ui.RootView
 
 class KodomoKeyboard :
     InputMethodService(),
-    LifecycleOwner,
     ViewModelStoreOwner,
     SavedStateRegistryOwner {
 
@@ -50,7 +48,7 @@ class KodomoKeyboard :
             KeyboardState.create(),
             KodomoKeyboardUpdate(
                 clickKeyAction,
-                ::upDownDeleteKey
+                ::sendDownUpDeleteKeyEvent
             ),
             lifecycleScope
         )
@@ -81,12 +79,7 @@ class KodomoKeyboard :
     private fun handleLifecycleEvent(event: Lifecycle.Event) =
         lifecycleRegistry.handleLifecycleEvent(event)
 
-    private fun upDownDeleteKey() {
-        currentInputConnection.sendKeyEvent(
-            KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL)
-        )
-        currentInputConnection.sendKeyEvent(
-            KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL)
-        )
+    private fun sendDownUpDeleteKeyEvent() {
+        sendDownUpKeyEvents(KeyEvent.KEYCODE_DEL)
     }
 }
