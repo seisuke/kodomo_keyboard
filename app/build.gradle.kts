@@ -57,7 +57,7 @@ android {
         } else {
             "ktlintFormat"
         }
-        dependsOn("ktlintFormat")
+        dependsOn(lintOption)
         kotlinOptions {
             jvmTarget = "1.8"
             useIR = true
